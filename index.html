@@ -1,36 +1,39 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Title</title>
+    <title>JavaScript Quiz</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-  
+    
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-4">JavaScript Quiz</h1>
           <p class="lead">This is a timed quiz to test your JavaScript knowledge! See if you can get your name on the highscore list!</p>
-          <div id="countdown">
-            <h3 class="float-right">Time Remaining</h3>
+          <div>
+            <h3 class="float-right">Time Remaining (seconds)</h3>
             <br>
             <br>
-            <h4 class="float-right">60</h4>
+            <h4 id="countdown" class="float-right">75</h4>
           </div>
+          <button id="start">Start Quiz</button>
           <button id="highscore">View Top Scores</button>
         </div>
     </div>
 
     <div class="container">
-        <h4 id="question">Question</h4>
-        <button id="opt1" type="button" class="btn btn-primary m-1">Option 1</button> <br>
-        <button id="opt2" type="button" class="btn btn-primary m-1">Option 2</button> <br>
-        <button id="opt3" type="button" class="btn btn-primary m-1">Option 3</button> <br>
-        <button id="opt4" type="button" class="btn btn-primary m-1">Option 4</button> <br>
+        <div id="questionBlock">
+            <h4 id="question"></h4>
+            <button id="opt1" type="button" class="btn btn-primary m-1"></button> <br>
+            <button id="opt2" type="button" class="btn btn-primary m-1"></button> <br>
+            <button id="opt3" type="button" class="btn btn-primary m-1"></button> <br>
+            <button id="opt4" type="button" class="btn btn-primary m-1"></button> <br>
+        </div>
     </div>
     
       <!-- Optional JavaScript -->
