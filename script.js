@@ -1,35 +1,48 @@
 var countdownDisplay = document.getElementById("countdown");
 var scoreDisplay = document.getElementById("score");
+var highscoreModal = document.getElementById("highscoreModal");
 var highscoreBtn = document.getElementById("highscore");
+var saveHighscoreBtn = document.getElementById("saveHighscore");
+var newHighscoreInput = document.getElementById("newHighscore");
+var highscoreList = document.getElementById("highscoreList");
 var startBtn = document.getElementById("start");
 var question = document.getElementById("question");
+var questionBlock = document.getElementById("questionBlock");
 var answer1 = document.getElementById("opt1");
 var answer2 = document.getElementById("opt2");
 var answer3 = document.getElementById("opt3");
 var answer4 = document.getElementById("opt4");
 var lastResultDisplay = document.getElementById("lastResult");
+// Questions from: https://www.latestinterviewquestions.com/javascript-multiple-choice-questions-answers
 var questions = [
     {
-        question: "test",
-        opt1: "correct",
-        opt2: "wrong",
-        opt3: "wrong",
-        opt4: "wrong",
+        question: "1. JavaScript is ______ language.",
+        opt1: "Scripting",
+        opt2: "Programming",
+        opt3: "a Computer",
+        opt4: "Application",
         correct: "opt1"
     },{
-        question: "test 2",
-        opt1: "wrong",
-        opt2: "correct",
-        opt3: "wrong",
-        opt4: "wrong",
+        question: "2. The behavior of the document elements can be defined by",
+        opt1: "Using document object",
+        opt2: "Registering appropriate event handlers",
+        opt3: "Using element object",
+        opt4: "All of the above",
         correct: "opt2"
     },{
-        question: "test 3",
-        opt1: "wrong",
-        opt2: "wrong",
-        opt3: "correct",
-        opt4: "wrong",
-        correct: "opt3"
+        question: "3. JavaScript code between a pair of “script” tags are called",
+        opt1: "Non-inline",
+        opt2: "External",
+        opt3: "Referenced",
+        opt4: "Inline",
+        correct: "opt4"
+    },{
+        question: "4. What is the programming philosophy that argues that content and behavior should as much as possible be kept separate?",
+        opt1: "Unobtrusive JavaScript",
+        opt2: "Obtrusive JavaScript",
+        opt3: "Inherited JavaScript",
+        opt4: "Modular JavaScript",
+        correct: "opt1"
     }
 ]
 var totalSeconds = 60;
@@ -45,12 +58,23 @@ function startCountdown() {
             secondsElapsed++;
             countdownDisplay.textContent = secondsLeft;
             } else {
+                questionBlock.style.display = "none";
                 alert("Pencils Down!");
-                clearInterval(interval);
                 totalSeconds = 60;
+                clearInterval(interval);
             }
         }, 1000);
     } 
+
+function startQuiz() {
+    score = 0;
+    scoreDisplay.textContent = score;
+    totalSeconds = 60;
+    secondsElapsed = 0;
+    startCountdown();
+    renderQuestion();
+    questionBlock.style.display = "block";
+}
 
 function renderQuestion() {
     if (i < questions.length) {
@@ -60,40 +84,47 @@ function renderQuestion() {
         answer3.textContent = questions[i].opt3;
         answer4.textContent = questions[i].opt4;
     } else {
-        clearInterval(interval);
+        console.log("score" + score)
         alert("Quiz Complete!");
+        openModal();
         totalSeconds = 60;
-        i = 0
-        document.getElementById("questionBlock").style.display = "none";
+        i = 0;
+        clearInterval(interval);
+        questionBlock.style.display = "none";
         lastResultDisplay.textContent = "";
-
     }
 }
 
-function startQuiz() {
-    startCountdown();
-    renderQuestion();
-    document.getElementById("questionBlock").style.display = "block";
-}
-
 function checkAnswer() {
-    console.log("event target: " + event.target)
-    console.log(questions[i].correct)
-    if (event.target.matches(questions[i].correct)) {
+    if (event.target.id === questions[i].correct) {
         lastResultDisplay.textContent = "correct!";
         score++;
-        console.log(score);
         scoreDisplay.textContent = score;
     } else {
-        lastResultDisplay.textContent = "incorrect :(";
-        score--;
+        lastResultDisplay.textContent = "incorrect :( -5 seconds";
         scoreDisplay.textContent = score;
+        secondsElapsed = secondsElapsed + 5;
     }
     i++;
     renderQuestion();
 }
 
+function openModal() {
+    highscoreModal.style.display = "block";
+}
+
 function addHighscore() {
+    var newLi = document.createElement("li");
+    newLi.textContent = newHighscoreInput.value + ": " + score
+    highscoreList.appendChild(newLi);
+    newHighscoreInput.textContent = ""
+}
+
+function setHighscores() {
+    localStorage.setItem("Highscores", JSON.stringify(highscoreList));
+}
+
+function getHighscores() {
 
 }
 
@@ -102,3 +133,4 @@ answer1.addEventListener("click", checkAnswer);
 answer2.addEventListener("click", checkAnswer);
 answer3.addEventListener("click", checkAnswer);
 answer4.addEventListener("click", checkAnswer);
+saveHighscoreBtn.addEventListener("click", addHighscore);
