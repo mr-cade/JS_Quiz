@@ -16,16 +16,57 @@
           <h1 class="display-4">JavaScript Quiz</h1>
           <p class="lead">This is a timed quiz to test your JavaScript knowledge! See if you can get your name on the highscore list!</p>
           <div>
-            <h3 class="float-right">Time Remaining (seconds)</h3>
+            <h3 class="float-right">Time Remaining</h3>
             <br>
             <br>
-            <h4 id="countdown" class="float-right">75</h4>
+            <h4 id="countdown" class="float-right">60</h4>
+            <br>
+            <br>
+            <h3 class="float-right">Score</h3>
+            <br>
+            <br>
+            <h4 id="score" class="float-right">0</h4>
           </div>
-          <button id="start">Start Quiz</button>
-          <button id="highscore">View Top Scores</button>
+          <button id="start" class="btn btn-primary">Start Quiz</button>
+        
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#highscoreModal">
+            View Highscores
+          </button>
+        </div>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="highscoreModal" tabindex="-1" role="dialog" aria-labelledby="highscoreModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="highscoreModalLabel">Highscores</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <div class="form-group">
+                  <label for=""></label>
+                  <input type="text"
+                    class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
+                  <small id="helpId" class="form-text text-muted">Enter your initials</small>
+                </div>
+                <div>
+                    <ol id="highscoreList">
+                        <li>CLP: 50</li>
+                    </ol>
+                </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            </div>
         </div>
     </div>
-
+    
     <div class="container">
         <div id="questionBlock">
             <h4 id="question"></h4>
@@ -34,7 +75,9 @@
             <button id="opt3" type="button" class="btn btn-primary m-1"></button> <br>
             <button id="opt4" type="button" class="btn btn-primary m-1"></button> <br>
         </div>
+        <div id="lastResult"></div>
     </div>
+
     
       <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
