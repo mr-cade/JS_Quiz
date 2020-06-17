@@ -110,24 +110,42 @@ function checkAnswer() {
         scoreDisplay.textContent = score;
         secondsElapsed = secondsElapsed + 5;
     }
-    i++;
-    renderQuestion();
+    setTimeout(function(){
+        lastResultDisplay.textContent= ""
+        i++;
+        renderQuestion();
+    }, 1000)
 }
 
+//adds highscore to list and saves to local storage
 function addHighscore() {
+    var saveToLocalArr = []
+    var fromLocalStorage = JSON.parse(localStorage.getItem("scores"))
+    console.log(fromLocalStorage);
+    if(fromLocalStorage != null){
+        for(var j=0; j<fromLocalStorage.length; j++) {   
+            saveToLocalArr.push(fromLocalStorage[j])
+            if(saveToLocalArr.length >= 9) {
+            saveToLocalArr.shift()
+            }
+        }
+        for(var l=0;l<saveToLocalArr.length; l++){
+            var newLi = document.createElement("li");
+            newLi.textContent = saveToLocalArr[l].init + ": " + saveToLocalArr[l].highScore;
+            highscoreList.appendChild(newLi);
+        }
+    }
     var newLi = document.createElement("li");
     newLi.textContent = newHighscoreInput.value + ": " + score;
     highscoreList.appendChild(newLi);
     newHighscoreInput.textContent = "";
-}
 
-//local storage
-function setHighscores() {
-    localStorage.setItem("Highscores", JSON.stringify(highscoreList));
-}
-
-function getHighscores() {
-
+    var scoreAndInit = {
+        highScore : score,
+        init : newHighscoreInput.value
+    }
+    saveToLocalArr.push(scoreAndInit)
+    localStorage.setItem("scores",JSON.stringify(saveToLocalArr))
 }
 
 //event listeners
