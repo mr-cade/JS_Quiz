@@ -70,16 +70,6 @@ function startCountdown() {
     }, 1000);
 } 
 
-function startQuiz() {
-    score = 0;
-    scoreDisplay.textContent = score;
-    totalSeconds = 60;
-    secondsElapsed = 0;
-    startCountdown();
-    renderQuestion();
-    questionBlock.style.display = "block";
-}
-
 function renderQuestion() {
     if (i < questions.length) {
         question.textContent = questions[i].question;
@@ -89,7 +79,7 @@ function renderQuestion() {
         answer4.textContent = questions[i].opt4;
     } else {
         console.log("score" + score);
-        scoreDisplay.textContent = score; //score doesn't update on last question before quiz complete alert triggers
+        scoreDisplay.textContent = score;
         alert("Quiz Complete!");
         $('#highscoreModal').modal('show');
         totalSeconds = 60;
@@ -98,6 +88,16 @@ function renderQuestion() {
         questionBlock.style.display = "none";
         lastResultDisplay.textContent = "";
     }
+}
+
+function startQuiz() {
+    score = 0;
+    scoreDisplay.textContent = score;
+    totalSeconds = 60;
+    secondsElapsed = 0;
+    startCountdown();
+    renderQuestion();
+    questionBlock.style.display = "block";
 }
 
 function checkAnswer() {
@@ -119,33 +119,36 @@ function checkAnswer() {
 
 //adds highscore to list and saves to local storage
 function addHighscore() {
-    var saveToLocalArr = []
+    var localArr = []
     var fromLocalStorage = JSON.parse(localStorage.getItem("scores"))
-    console.log(fromLocalStorage);
+    // loops over localArr to create the full list of highscores from local storage
     if(fromLocalStorage != null){
-        for(var j=0; j<fromLocalStorage.length; j++) {   
-            saveToLocalArr.push(fromLocalStorage[j])
-            if(saveToLocalArr.length >= 9) {
-            saveToLocalArr.shift()
+        for(var j = 0; j < fromLocalStorage.length; j++) {   
+            localArr.push(fromLocalStorage[j])
+            // limits the list to latest 10 entries (not quite working right -- appends last 10 entries to existing array so scores get double displayed)
+            if(localArr.length >= 9) {
+            localArr.shift()
             }
         }
-        for(var l=0;l<saveToLocalArr.length; l++){
+        for(var l = 0; l < localArr.length; l++){
             var newLi = document.createElement("li");
-            newLi.textContent = saveToLocalArr[l].init + ": " + saveToLocalArr[l].highScore;
+            newLi.textContent = localArr[l].init + ": " + localArr[l].highScore;
             highscoreList.appendChild(newLi);
         }
     }
+    // renders last score input on the list
     var newLi = document.createElement("li");
     newLi.textContent = newHighscoreInput.value + ": " + score;
     highscoreList.appendChild(newLi);
     newHighscoreInput.textContent = "";
 
+    // creates object with score and initals for saving into local storage
     var scoreAndInit = {
         highScore : score,
         init : newHighscoreInput.value
     }
-    saveToLocalArr.push(scoreAndInit)
-    localStorage.setItem("scores",JSON.stringify(saveToLocalArr))
+    localArr.push(scoreAndInit)
+    localStorage.setItem("scores", JSON.stringify(localArr))
 }
 
 //event listeners
