@@ -1,6 +1,6 @@
+//html element variables
 var countdownDisplay = document.getElementById("countdown");
 var scoreDisplay = document.getElementById("score");
-var highscoreModal = document.getElementById("highscoreModal");
 var highscoreBtn = document.getElementById("highscore");
 var saveHighscoreBtn = document.getElementById("saveHighscore");
 var newHighscoreInput = document.getElementById("newHighscore");
@@ -13,6 +13,14 @@ var answer2 = document.getElementById("opt2");
 var answer3 = document.getElementById("opt3");
 var answer4 = document.getElementById("opt4");
 var lastResultDisplay = document.getElementById("lastResult");
+
+//function variables
+var totalSeconds = 30;
+var secondsElapsed = 0;
+var interval;
+var i = 0;
+var score = 0;
+
 // Questions from: https://www.latestinterviewquestions.com/javascript-multiple-choice-questions-answers
 var questions = [
     {
@@ -45,26 +53,22 @@ var questions = [
         correct: "opt1"
     }
 ]
-var totalSeconds = 60;
-var secondsElapsed = 0;
-var interval;
-var i = 0;
-var score = 0;
 
+//functions
 function startCountdown() {
-        interval = setInterval(function() {
-            var secondsLeft = totalSeconds - secondsElapsed;
-            if (secondsLeft >= 0) {
-            secondsElapsed++;
-            countdownDisplay.textContent = secondsLeft;
-            } else {
-                questionBlock.style.display = "none";
-                alert("Pencils Down!");
-                totalSeconds = 60;
-                clearInterval(interval);
-            }
-        }, 1000);
-    } 
+    interval = setInterval(function() {
+        var secondsLeft = totalSeconds - secondsElapsed;
+        if (secondsLeft >= 0) {
+        secondsElapsed++;
+        countdownDisplay.textContent = secondsLeft;
+        } else {
+            questionBlock.style.display = "none";
+            alert("Pencils Down!");
+            totalSeconds = 30;
+            clearInterval(interval);
+        }
+    }, 1000);
+} 
 
 function startQuiz() {
     score = 0;
@@ -84,9 +88,10 @@ function renderQuestion() {
         answer3.textContent = questions[i].opt3;
         answer4.textContent = questions[i].opt4;
     } else {
-        console.log("score" + score)
+        console.log("score" + score);
+        scoreDisplay.textContent = score; //score doesn't update on last question before quiz complete alert triggers
         alert("Quiz Complete!");
-        openModal();
+        $('#highscoreModal').modal('show');
         totalSeconds = 60;
         i = 0;
         clearInterval(interval);
@@ -109,17 +114,14 @@ function checkAnswer() {
     renderQuestion();
 }
 
-function openModal() {
-    highscoreModal.style.display = "block";
-}
-
 function addHighscore() {
     var newLi = document.createElement("li");
-    newLi.textContent = newHighscoreInput.value + ": " + score
+    newLi.textContent = newHighscoreInput.value + ": " + score;
     highscoreList.appendChild(newLi);
-    newHighscoreInput.textContent = ""
+    newHighscoreInput.textContent = "";
 }
 
+//local storage
 function setHighscores() {
     localStorage.setItem("Highscores", JSON.stringify(highscoreList));
 }
@@ -128,6 +130,7 @@ function getHighscores() {
 
 }
 
+//event listeners
 startBtn.addEventListener("click", startQuiz);
 answer1.addEventListener("click", checkAnswer);
 answer2.addEventListener("click", checkAnswer);
