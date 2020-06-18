@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
   </head>
 
@@ -16,10 +17,8 @@
           <h1 class="display-4">JavaScript Quiz</h1>
           <p class="lead">This is a timed quiz to test your JavaScript knowledge! See if you can get your name on the highscore list!</p>
           <div>
-            <h3 class="float-right">Time Remaining</h3>
-            <br>
-            <br>
-            <h4 id="countdown" class="float-right">30</h4>
+            <h3 id="countdown" class="float-right mt-1">30</h3>
+            <h3 class="float-right"><i class="fas fa-stopwatch mr-2 mb-2"></i></h3>
             <br>
             <br>
             <h3 class="float-right">Score</h3>
@@ -47,9 +46,8 @@
                 </div>
                 <div class="modal-body">
                 <div class="form-group">
-                  <label for=""></label>
                   <input type="text"
-                    class="form-control" name="" id="newHighscore" aria-describedby="helpId" placeholder="">
+                    class="form-control" id="newHighscore" aria-describedby="helpId" placeholder="">
                   <small id="helpId" class="form-text text-muted">Enter your initials</small>
                 </div>
                 <div>
@@ -69,6 +67,7 @@
     
     <div class="container">
         <div id="questionBlock">
+            <!-- dynamically populated by js -->
             <h4 id="question"></h4>
             <button id="opt1" type="button" class="btn btn-primary m-1"></button> <br>
             <button id="opt2" type="button" class="btn btn-primary m-1"></button> <br>

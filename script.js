@@ -20,6 +20,7 @@ var secondsElapsed = 0;
 var interval;
 var i = 0;
 var score = 0;
+var localArr = []
 
 // Questions from: https://www.latestinterviewquestions.com/javascript-multiple-choice-questions-answers
 var questions = [
@@ -78,11 +79,10 @@ function renderQuestion() {
         answer3.textContent = questions[i].opt3;
         answer4.textContent = questions[i].opt4;
     } else {
-        console.log("score" + score);
         scoreDisplay.textContent = score;
         alert("Quiz Complete!");
         $('#highscoreModal').modal('show');
-        totalSeconds = 60;
+        totalSeconds = 30;
         i = 0;
         clearInterval(interval);
         questionBlock.style.display = "none";
@@ -92,8 +92,9 @@ function renderQuestion() {
 
 function startQuiz() {
     score = 0;
+    i = 0;
     scoreDisplay.textContent = score;
-    totalSeconds = 60;
+    totalSeconds = 30;
     secondsElapsed = 0;
     startCountdown();
     renderQuestion();
@@ -117,17 +118,16 @@ function checkAnswer() {
     }, 1000)
 }
 
-//adds highscore to list and saves to local storage
-function addHighscore() {
-    var localArr = []
+// render highscore list
+function renderScoreList() {
     var fromLocalStorage = JSON.parse(localStorage.getItem("scores"))
     // loops over localArr to create the full list of highscores from local storage
     if(fromLocalStorage != null){
         for(var j = 0; j < fromLocalStorage.length; j++) {   
             localArr.push(fromLocalStorage[j])
-            // limits the list to latest 10 entries (not quite working right -- appends last 10 entries to existing array so scores get double displayed)
+            // limits the list to latest 10 entries (not working)
             if(localArr.length >= 9) {
-            localArr.shift()
+                localArr.shift();
             }
         }
         for(var l = 0; l < localArr.length; l++){
@@ -136,7 +136,13 @@ function addHighscore() {
             highscoreList.appendChild(newLi);
         }
     }
-    // renders last score input on the list
+}
+renderScoreList()
+
+//adds highscore to list and saves to local storage
+function addHighscore() {
+    
+    // adds last score input on the list
     var newLi = document.createElement("li");
     newLi.textContent = newHighscoreInput.value + ": " + score;
     highscoreList.appendChild(newLi);

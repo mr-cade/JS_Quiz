@@ -1,3 +1,4 @@
+/* question block doesn't display until the quiz is started */
 #questionBlock {
     display: none;
 }
